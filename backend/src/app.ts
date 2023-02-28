@@ -1,18 +1,32 @@
 import express from "express";
 import  taskRouter  from './routes/Tasks';
+import { connectDB } from './db/connect';
+import dotenv from 'dotenv';
+// import 'express-async-errors'
+
 const app = express();
 
-const port = 5000
+dotenv.config();
+
+const port = process.env.PORT || 3101 
+
 
 app.use(express.json());
 app.use('/api/v1/task',taskRouter)
 
 //db
-const start = (url) => {
-    
+const start = async () => {
+    try {
+        await connectDB(process.env.MONGO_URI);
+        app.listen(port, () => {
+            console.log(`Listening on port ${port}...`)
+        })
+    }
+    catch (e) {
+        console.log(`Error ${e}, ${process.env.MONGO_URI}`);
+    }
 }
 
-app.listen(port, () => {
-    console.log(`Listening on port ${port}...`)
-})
 
+
+start();
