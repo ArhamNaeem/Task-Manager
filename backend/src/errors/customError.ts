@@ -1,7 +1,6 @@
-
-
-export class customError extends Error {
+class customError extends Error {
     constructor(messege:string) {
         super(messege);
     }
 }
+export default customError
