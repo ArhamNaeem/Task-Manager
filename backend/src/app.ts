@@ -4,17 +4,17 @@ import { connectDB } from './db/connect';
 import dotenv from 'dotenv';
 import notFoundMiddleware from "./middleware/not-found";
 import errorHandlerMiddleware from './middleware/error-handler';
-
+import setHeadeMiddleware from './middleware/set_header'
 
 const app = express();
 dotenv.config();
-
+app.use(setHeadeMiddleware);
 app.use(express.json());
 app.use("/api/v1/task", taskRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 3003
+const port = process.env.PORT || 3000
 
 
 //db

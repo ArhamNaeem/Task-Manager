@@ -4,7 +4,8 @@ import { model as Tasks } from '../models/Task';
 import { badRequest, notFound  } from '../errors';
  export const getAllTasks = async (req: express.Request, res: express.Response) => {
     //TODO: handle errors and edge cases
-     try {
+   try {
+    //  console.log('sending all tasks')
          const task = await Tasks.find({}).sort('createdAt');
          res
              .status(StatusCodes.OK)
@@ -64,7 +65,8 @@ export const updateTask = async (req:express.Request, res:express.Response) => {
      }
 }
 export const deleteTask = async (req:express.Request, res:express.Response) => {
-    try {
+  try {
+      //  res.setHeader("Access-Control-Allow-Origin", "*");
          const {id} = req.params
         const task= await Tasks.findByIdAndRemove({ _id: id });
          if (!task) {
@@ -74,7 +76,7 @@ export const deleteTask = async (req:express.Request, res:express.Response) => {
          }
         res.status(StatusCodes.OK).json({success:true,msg:"Task deleted"})
      } catch (e) {
-   res.status(StatusCodes.BAD_REQUEST).json({ success: false, msg: e });
+   res.status(StatusCodes.BAD_REQUEST).json({ success: false, msg: `Error occurred` });
 
      }
 }
