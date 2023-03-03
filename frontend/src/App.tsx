@@ -2,12 +2,12 @@ import ShowAllTasks from "./components/ShowAllTasks";
 import {  LegacyRef, useRef, useState } from "react";
 import { useInputCheck } from "./customHooks/useInputCheck";
 import { useCreateTask } from "./customHooks/useCreateTask";
-export default function App() {
-  // const inputRef = useRef<any>();
-  const [reqMsg, setReqMsg] = useState("Successfully added!");
-    const [msg, setMsg] = useState("");
-    const {validate,insertTask} = useInputCheck(msg,setMsg)
-  const { createTask } = useCreateTask();
+export default function App() {;
+  const [reqMsg, setReqMsg] = useState("");
+  const [msg, setMsg] = useState("");
+    const [msgAdded, setMsgAdded] = useState(false);
+  
+    const {validate,insertTask} = useInputCheck(msg,setMsg,msgAdded,setMsgAdded)
   return (
     <>
       <div className="text-4xl  font-semibold text-blue-600 text-center my-6">
@@ -21,10 +21,8 @@ export default function App() {
             placeholder="Enter task.."
             onKeyDown={(e) => {
               insertTask(e);
-              createTask(msg); //to insert msg into data
             }}
             onChange={(e: any) =>validate(e)}
-             
             value={msg}
           />
           <div className="bg-white border h-10 pt-2 w-20 text-center border-blue-200 shadow-sm">
@@ -34,18 +32,17 @@ export default function App() {
             className="border h-10 ml-3 p-2 rounded-lg transition-all border-blue-300 hover:scale-105 hover:border-blue-500"
             onClick={(e) => {
               insertTask(e);
-              createTask(msg);
             }}
           >
             Add Task
           </button>
         </div>
         <p className="mt-4 text-center text-lg font-semibold text-blue-700">
-          {/* {reqMsg} */}
+          {reqMsg}
         </p>
       </div>
 
-      <ShowAllTasks />
+      <ShowAllTasks refresh = {msgAdded}  setRefresh = {setMsgAdded} />
     </>
   );
 }

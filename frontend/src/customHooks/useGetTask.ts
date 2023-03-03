@@ -9,7 +9,7 @@ interface resType {
 }
 
 
-export const useGetTask = () => {
+export const useGetTask = (refresh:boolean) => {
     const [taskData, setTaskData] = useState<resType[]>();
       
     useEffect(() => {
@@ -24,7 +24,7 @@ export const useGetTask = () => {
             }
         })();
         
-      }, []);
+      }, [refresh]);
 
  return {taskData}
 }

@@ -1,14 +1,18 @@
 import { useState } from "react";
+import { useCreateTask } from "./useCreateTask";
 
-export const useInputCheck = (msg:string,setMsg:any) => {
+export const useInputCheck = (msg: string, setMsg: any, msgAdded:any,setMsgAdded:any) => {
+    const { createTask} = useCreateTask();
     const insertTask = (e: any) => {
-        if (!msg) {
+        if (!msg || !msg.trim()) {
             return;
         }
+     
         if (e.type === "keydown" && e.code !== "Enter") {
             return;
         }
-        console.log(msg);
+        createTask(msg);
+        setMsgAdded(true)
         setMsg("");
     };
     
@@ -22,5 +26,5 @@ export const useInputCheck = (msg:string,setMsg:any) => {
             setMsg(oldVal)
         }
     }
-   return {validate,insertTask}
+   return {validate,insertTask,msgAdded}
 }

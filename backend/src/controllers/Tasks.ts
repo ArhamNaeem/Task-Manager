@@ -12,7 +12,7 @@ import { badRequest, notFound  } from '../errors';
              .json({ success: true, task });
         
      } catch (e) {
-         res.status(StatusCodes.BAD_REQUEST).json({success: false, msg:e})
+     res.status(StatusCodes.BAD_REQUEST).json({ success: false, msg: e });
     }
 }
 export const getTask = async (req: express.Request, res: express.Response) => {
