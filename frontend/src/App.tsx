@@ -1,20 +1,35 @@
 import ShowAllTasks from "./components/ShowAllTasks";
-import {  LegacyRef, useRef, useState } from "react";
+import { LegacyRef, useRef, useState } from "react";
 import { useInputCheck } from "./customHooks/useInputCheck";
 import { useCreateTask } from "./customHooks/useCreateTask";
 import { motion } from "framer-motion";
-export default function App() {;
-  const [reqMsg, setReqMsg] = useState("");
+
+interface msgType{
+  msg: string;
+  color: string;
+}
+
+export default function App() {
+  const [reqMsg, setReqMsg] = useState<msgType>({
+    msg: "",
+    color: "red-700",
+  });
   const [msg, setMsg] = useState("");
-    const [msgAdded, setMsgAdded] = useState(false);
-    const {validate,insertTask} = useInputCheck(msg,setMsg,msgAdded,setMsgAdded,setReqMsg)
+  const [msgAdded, setMsgAdded] = useState(false);
+  const { validate, insertTask } = useInputCheck(
+    msg,
+    setMsg,
+    msgAdded,
+    setMsgAdded,
+    setReqMsg
+  );
   return (
     <>
       <motion.div
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 500, damping: 25 }}
-        className="text-4xl  font-semibold text-blue-600 text-center my-6"
+        className="text-4xl font-semibold text-blue-600 text-center my-6"
       >
         Task Manager
       </motion.div>
@@ -30,7 +45,7 @@ export default function App() {;
             onChange={(e) => validate(e)}
             value={msg}
           />
-          <div className="bg-white border h-10 pt-2 w-20 text-center border-blue-200 shadow-sm">
+          <div className="hidden bg-white border h-10 pt-2 w-20 text-center border-blue-200 shadow-sm">
             {msg.length}/100
           </div>
           <button
@@ -42,8 +57,9 @@ export default function App() {;
             Add Task
           </button>
         </div>
-        <p className="mt-4 text-center text-lg font-semibold text-blue-700">
-          {reqMsg}
+        <p className={`mt-4 text-center text-lg font-semibold text-${reqMsg.color}`}>
+          {reqMsg.msg}
+          
         </p>
       </div>
 

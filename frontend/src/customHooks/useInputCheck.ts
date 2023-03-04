@@ -1,13 +1,16 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { useCreateTask } from "./useCreateTask";
-
+interface msgType {
+  msg: string;
+  color: string;
+}
 
 export const useInputCheck = (
   msg: string,
   setMsg: Dispatch<SetStateAction<string>>,
   msgAdded: boolean,
   setMsgAdded: Dispatch<SetStateAction<boolean>>,
-  setReqMsg: Dispatch<SetStateAction<string>>
+  setReqMsg: Dispatch<SetStateAction<msgType>>
 ) => {
   const { createTask } = useCreateTask();
   const insertTask = (e: any) => {
@@ -21,15 +24,15 @@ export const useInputCheck = (
       }
       createTask(msg);
       setMsgAdded(true);
-      setReqMsg("Task added!");
+      setReqMsg({ msg: "Task added!", color: "blue-700" });
       setTimeout(() => {
-        setReqMsg("");
+        setReqMsg({ msg: "", color: "blue-700" });
       }, 1000);
       setMsg("");
     } catch (e) {
-      setReqMsg('Some error occurred!');
+      setReqMsg({ msg: "Some error occurred!", color: "red-700" });
       setTimeout(() => {
-        setReqMsg("");
+        setReqMsg({ msg: "", color: "blue-700" });
       }, 1000);
     }
   };
@@ -38,9 +41,9 @@ export const useInputCheck = (
     const newVal = e.target.value;
     const oldVal = msg;
     const isBackspace =
-      e.nativeEvent instanceof InputEvent && e.nativeEvent.inputType ===
-      "deleteContentBackward";
-    if (msg.length < 100 || isBackspace ) {
+      e.nativeEvent instanceof InputEvent &&
+      e.nativeEvent.inputType === "deleteContentBackward";
+    if (msg.length < 100 || isBackspace) {
       setMsg(newVal);
     } else {
       setMsg(oldVal);

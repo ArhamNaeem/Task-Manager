@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 interface resType {
   _id: string;
   task: string;
@@ -7,28 +7,33 @@ interface resType {
   updatedAt: Date;
   __v: number;
 }
-
-
-export const useGetTask = (refresh:boolean, setReqMsg:any) => {
-    const [taskData, setTaskData] = useState<resType[]>();
-      
-    useEffect(() => {
-        (async () => {
-            try {
-                const { data } = await axios.get(
-                    "http://localhost:3000/api/v1/task"
-                );
-                setTaskData(data.task);
-            } catch (e) {
-                console.log("error has occurred");
-                setReqMsg(`Couldn't fetch tasks due to some error.`)
-                setTimeout(() => {
-                    setReqMsg("")
-                }, 1000);
-            }
-        })();
-        
-      }, [refresh]);
-
- return {taskData}
+interface msgType {
+  msg: string;
+  color: string;
 }
+
+export const useGetTask = (
+  refresh: boolean,
+  setReqMsg: Dispatch<SetStateAction<msgType>>
+) => {
+  const [taskData, setTaskData] = useState<resType[]>();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get("http://localhost:3000/api/v1/task");
+        setTaskData(data.task);
+      } catch (e) {
+        setReqMsg({
+          msg: `Couldn't fetch tasks due to some error.`,
+          color: "red-700",
+        });
+        setTimeout(() => {
+          setReqMsg({ msg: "", color: "blue-700" });
+        }, 1000);
+      }
+    })();
+  }, [refresh]);
+
+  return { taskData };
+};

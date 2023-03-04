@@ -20,10 +20,15 @@ import { usehandlePopUp } from "../customHooks/useHandlePopUp";
 import { usehandleDeleteTask } from "../customHooks/useHandleDeleteTask";
 import { useHandleUpdateTask } from "../customHooks/useHandleUpdateTask";
 
+interface msgType {
+  msg: string;
+  color: string;
+}
+
 interface propType {
   refresh: boolean;
   setRefresh: Dispatch<SetStateAction<boolean>>;
-  setReqMsg: Dispatch<SetStateAction<string>>;
+  setReqMsg: Dispatch<SetStateAction<msgType>>;
 }
 interface taskObj {
   task: string;
@@ -36,7 +41,10 @@ const ShowAllTasks = (props: propType) => {
   const [refreshU, setRefreshU] = useState(false);
   const [taskMsg, setTaskMsg] = useState("Tasks to be completed");
   const [actualTask, setActualTask] = useState<taskObj>({ task: "", id: "" });
-  const { taskData } = useGetTask(refresh || props.refresh || refreshU, props.setReqMsg);
+  const { taskData } = useGetTask(
+    refresh || props.refresh || refreshU,
+    props.setReqMsg
+  );
   const { handleClosePopup, handleOpenPopup, showPopup } = usehandlePopUp();
   const { onDeleteTask, deletingId, setDeletingId } = usehandleDeleteTask(
     setRefresh,
@@ -114,55 +122,54 @@ const ShowAllTasks = (props: propType) => {
       </AnimatePresence>
 
       <h1 className="text-center text-3xl my-2 font-semibold text-blue-600 drop-shadow-sm ">
-        {taskMsg} {taskData?.length}
+        {taskMsg} {taskData?.length? taskData.length : 0}
       </h1>
 
-      {taskData?.length ? (
-        taskData.map((task) => {
-          const isDeleting = task._id === deletingId;
-          return (
-            <motion.div
-              key={task._id}
-              id={`task-${task._id}`}
-              initial={
-                isDeleting ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }
-              }
-              animate={
-                isDeleting ? { x: 600, opacity: 0 } : { x: 0, opacity: 1 }
-              }
-              transition={
-                isDeleting
-                  ? { type: "spring", stiffness: 100, damping: 60 }
-                  : { type: "spring", stiffness: 500, damping: 30 }
-              }
-              className="flex flex-wrap justify-between text-blue-600 my-5 m-auto text-xl font-semibold border border-blue-100 shadow-md w-4/5 py-4 px-10"
-            >
-              {task?.task}
-              <div>
-                {/* to update task */}
-                <button
-                  className="mr-5"
-                  onClick={() => {
-                    setActualTask({ task: task?.task, id: task?._id });
-                    handleOpenPopup();
-                  }}
-                >
-                  <FontAwesomeIcon icon="edit" />
-                </button>
-                {/* to delete task */}
-                <button
-                  onClick={() => {
-                    onDeleteTask(task._id);
-                  }}
-                >
-                  <FontAwesomeIcon icon="trash" />
-                </button>
-              </div>
-            </motion.div>
-          );
-        })
-      ):""}
-       
+      {taskData?.length
+        ? taskData.map((task) => {
+            const isDeleting = task._id === deletingId;
+            return (
+              <motion.div
+                key={task._id}
+                id={`task-${task._id}`}
+                initial={
+                  isDeleting ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }
+                }
+                animate={
+                  isDeleting ? { x: 600, opacity: 0 } : { x: 0, opacity: 1 }
+                }
+                transition={
+                  isDeleting
+                    ? { type: "spring", stiffness: 100, damping: 60 }
+                    : { type: "spring", stiffness: 500, damping: 30 }
+                }
+                className="flex flex-wrap justify-between text-blue-600 my-5 m-auto text-xl font-semibold border border-blue-100 shadow-md w-4/5 py-4 px-10"
+              >
+                {task?.task}
+                <div>
+                  {/* to update task */}
+                  <button
+                    className="mr-5"
+                    onClick={() => {
+                      setActualTask({ task: task?.task, id: task?._id });
+                      handleOpenPopup();
+                    }}
+                  >
+                    <FontAwesomeIcon icon="edit" />
+                  </button>
+                  {/* to delete task */}
+                  <button
+                    onClick={() => {
+                      onDeleteTask(task._id);
+                    }}
+                  >
+                    <FontAwesomeIcon icon="trash" />
+                  </button>
+                </div>
+              </motion.div>
+            );
+          })
+        : ""}
     </>
   );
 };

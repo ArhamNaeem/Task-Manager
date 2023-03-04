@@ -1,7 +1,14 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { useDeleteTask } from "./useDeleteTask";
+interface msgType {
+  msg: string;
+  color: string;
+}
 
-export const usehandleDeleteTask = (setRefresh: Dispatch<SetStateAction<boolean>>, setReqMsg: Dispatch<SetStateAction<string>>) => {
+export const usehandleDeleteTask = (
+  setRefresh: Dispatch<SetStateAction<boolean>>,
+  setReqMsg: Dispatch<SetStateAction<msgType>>
+) => {
   const { giveTaskID } = useDeleteTask();
   const [deletingId, setDeletingId] = useState("");
 
@@ -10,16 +17,17 @@ export const usehandleDeleteTask = (setRefresh: Dispatch<SetStateAction<boolean>
       giveTaskID(taskID);
       setDeletingId(taskID);
       setRefresh(true);
-      setReqMsg("Task deleted!");
+      setReqMsg({ msg: "Task deleted!", color: "blue-700" });
       setTimeout(() => {
-        setReqMsg("");
+        setReqMsg({ msg: "", color: "blue-700" });
       }, 1000);
     } catch (e) {
-      setReqMsg("Some error occurred!");
+      setReqMsg({ msg: "Some error occurred!", color: "red-700" });
+
       setTimeout(() => {
-        setReqMsg("");
+        setReqMsg({ msg: "", color: "blue-700" });
       }, 1000);
     }
   };
-  return { onDeleteTask, deletingId , setDeletingId};
+  return { onDeleteTask, deletingId, setDeletingId };
 };
