@@ -2,16 +2,22 @@ import ShowAllTasks from "./components/ShowAllTasks";
 import {  LegacyRef, useRef, useState } from "react";
 import { useInputCheck } from "./customHooks/useInputCheck";
 import { useCreateTask } from "./customHooks/useCreateTask";
+import { motion } from "framer-motion";
 export default function App() {;
   const [reqMsg, setReqMsg] = useState("");
   const [msg, setMsg] = useState("");
     const [msgAdded, setMsgAdded] = useState(false);
-    const {validate,insertTask} = useInputCheck(msg,setMsg,msgAdded,setMsgAdded)
+    const {validate,insertTask} = useInputCheck(msg,setMsg,msgAdded,setMsgAdded,setReqMsg)
   return (
     <>
-      <div className="text-4xl  font-semibold text-blue-600 text-center my-6">
+      <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 500, damping: 25 }}
+        className="text-4xl  font-semibold text-blue-600 text-center my-6"
+      >
         Task Manager
-      </div>
+      </motion.div>
       <div className=" h-24 text-blue-600  mt-20">
         <div className="flex justify-center">
           <input
@@ -21,7 +27,7 @@ export default function App() {;
             onKeyDown={(e) => {
               insertTask(e);
             }}
-            onChange={(e: any) =>validate(e)}
+            onChange={(e) => validate(e)}
             value={msg}
           />
           <div className="bg-white border h-10 pt-2 w-20 text-center border-blue-200 shadow-sm">
@@ -41,7 +47,11 @@ export default function App() {;
         </p>
       </div>
 
-      <ShowAllTasks refresh = {msgAdded}  setRefresh = {setMsgAdded} />
+      <ShowAllTasks
+        refresh={msgAdded}
+        setRefresh={setMsgAdded}
+        setReqMsg={setReqMsg}
+      />
     </>
   );
 }

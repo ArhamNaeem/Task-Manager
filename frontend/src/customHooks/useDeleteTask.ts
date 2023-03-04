@@ -18,10 +18,8 @@ export const useDeleteTask = () => {
     if (taskId) {
       (async () => {
         try {
-          console.log('ye')
           const { data } = await axios.delete(`http://localhost:3000/api/v1/task/${taskId}`);
           setDeletedTask(data.task);
-          console.log('task deleted!!!')
         } catch (e) {
           console.log('Error has occurred');
         }

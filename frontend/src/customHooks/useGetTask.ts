@@ -18,7 +18,6 @@ export const useGetTask = (refresh:boolean) => {
                 const { data } = await axios.get(
                     "http://localhost:3000/api/v1/task"
                 );
-                // console.log(data.task)
                 setTaskData(data.task);
             } catch (e) {
                 console.log(e, "has occurred");
