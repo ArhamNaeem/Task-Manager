@@ -9,7 +9,7 @@ interface resType {
 }
 
 
-export const useGetTask = (refresh:boolean) => {
+export const useGetTask = (refresh:boolean, setReqMsg:any) => {
     const [taskData, setTaskData] = useState<resType[]>();
       
     useEffect(() => {
@@ -20,7 +20,11 @@ export const useGetTask = (refresh:boolean) => {
                 );
                 setTaskData(data.task);
             } catch (e) {
-                console.log(e, "has occurred");
+                console.log("error has occurred");
+                setReqMsg(`Couldn't fetch tasks due to some error.`)
+                setTimeout(() => {
+                    setReqMsg("")
+                }, 1000);
             }
         })();
         

@@ -36,7 +36,7 @@ const ShowAllTasks = (props: propType) => {
   const [refreshU, setRefreshU] = useState(false);
   const [taskMsg, setTaskMsg] = useState("Tasks to be completed");
   const [actualTask, setActualTask] = useState<taskObj>({ task: "", id: "" });
-  const { taskData } = useGetTask(refresh || props.refresh || refreshU);
+  const { taskData } = useGetTask(refresh || props.refresh || refreshU, props.setReqMsg);
   const { handleClosePopup, handleOpenPopup, showPopup } = usehandlePopUp();
   const { onDeleteTask, deletingId, setDeletingId } = usehandleDeleteTask(
     setRefresh,

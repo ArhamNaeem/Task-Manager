@@ -14,10 +14,7 @@ export const useUpdateTask = () => {
              const { data } = await axios.patch(
                `http://localhost:3000/api/v1/task/${taskId}`,
                 {task:newTask}
-             );
-            //  setDeletedTask(data.task);
-            // setNewTask("")
-             console.log("task updated!!!");
+             );  
            } catch (e) {
              console.log("Error has occurred");
            }
