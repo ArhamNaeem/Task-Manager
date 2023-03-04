@@ -1,11 +1,11 @@
 import { StatusCodes } from "http-status-codes";
-
+import express from 'express'
 interface type{
   statusCode: number;
-  msg: string;
+   msg: string;
 }
 
-const errorHandlerMiddleware = (err, req, res, next) => {
+const errorHandlerMiddleware = (err, req:express.Request, res:express.Response, next:express.NextFunction) => {
 
   const errorObj : type = {
     statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,

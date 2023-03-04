@@ -4,7 +4,7 @@ import customError from "./customError";
 
 class badRequest extends customError {
     statusCode: number
-    constructor(message) {
+    constructor(message:string) {
         super(message);
         this.statusCode = StatusCodes.BAD_REQUEST
     }
