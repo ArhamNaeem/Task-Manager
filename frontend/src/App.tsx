@@ -6,7 +6,6 @@ export default function App() {;
   const [reqMsg, setReqMsg] = useState("");
   const [msg, setMsg] = useState("");
     const [msgAdded, setMsgAdded] = useState(false);
-  
     const {validate,insertTask} = useInputCheck(msg,setMsg,msgAdded,setMsgAdded)
   return (
     <>
