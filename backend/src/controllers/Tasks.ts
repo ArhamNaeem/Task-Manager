@@ -1,7 +1,11 @@
 import express from 'express';
 import { StatusCodes} from 'http-status-codes';
 import { model as Tasks } from '../models/Task';
+<<<<<<< HEAD
 import { badRequest, notFound  } from '../errors';
+=======
+import {notFound} from '../errors/not-found';
+>>>>>>> 484a5a2 (worked on error handlers)
  export const getAllTasks = async (req: express.Request, res: express.Response) => {
     //TODO: handle errors and edge cases
    try {
@@ -15,6 +19,7 @@ import { badRequest, notFound  } from '../errors';
      res.status(StatusCodes.BAD_REQUEST).json({ success: false, msg: e });
     }
 }
+<<<<<<< HEAD
 export const getTask = async (req: express.Request, res: express.Response) => {
     try {
         const { id } = req.params
@@ -31,7 +36,20 @@ export const getTask = async (req: express.Request, res: express.Response) => {
         .status(StatusCodes.BAD_REQUEST)
         .json({ success: false, msg: e });
 
+=======
+export const getTask = async (req:express.Request, res:express.Response) => {
+    // try {
+        const { id } = req.params
+        console.log(req.params)
+    const task = await Tasks.findOne({ _id: id });
+    if (!task) {
+        throw new notFound('error hyeah')
+>>>>>>> 484a5a2 (worked on error handlers)
     }
+        res.status(StatusCodes.OK).json({ success: true, task });
+    // } catch (e) {
+    //   console.log("error in get a task");
+    // }
 }
 export const createTask = async (req:express.Request, res:express.Response) => {
     try {
