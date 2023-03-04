@@ -27,9 +27,9 @@ export const getTask = async (req: express.Request, res: express.Response) => {
         }
         res.status(StatusCodes.OK).json({ success: true, task });
     } catch (e) {
-              res
-                .status(StatusCodes.BAD_REQUEST)
-                .json({ success: false, msg: e });
+      res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ success: false, msg: e });
 
     }
 }
