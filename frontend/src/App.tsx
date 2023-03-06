@@ -34,9 +34,9 @@ export default function App() {
         Task Manager
       </motion.div>
       <div className=" h-24 text-blue-600  mt-20">
-        <div className="flex justify-center">
+        <div className="flex justify-center items-center flex-col md:flex-row md:items-start ">
           <input
-            className="w-1/2 border h-10 outline-none p-3 drop-shadow-md  focus:border-blue-300"
+            className="w-5/6 lg:w-1/2 mb-3 border h-10 outline-none p-3 drop-shadow-md  focus:border-blue-300"
             type="text"
             placeholder="Enter task.."
             onKeyDown={(e) => {
@@ -45,11 +45,11 @@ export default function App() {
             onChange={(e) => validate(e)}
             value={msg}
           />
-          <div className="hidden bg-white border h-10 pt-2 w-20 text-center border-blue-200 shadow-sm">
+          <div className="hidden md:block md:bg-white md:border md:h-10 md:pt-2 md:w-20 md:text-center md:border-blue-200 md:shadow-sm">
             {msg.length}/100
           </div>
           <button
-            className="border h-10 ml-3 p-2 rounded-lg transition-all border-blue-300 hover:scale-105 hover:border-blue-500"
+            className="border h-10 ml-3 p-2 w-1/2 md:w-24 rounded-lg transition-all border-blue-300 hover:scale-105 hover:border-blue-500"
             onClick={(e) => {
               insertTask(e);
             }}
@@ -57,9 +57,10 @@ export default function App() {
             Add Task
           </button>
         </div>
-        <p className={`mt-4 text-center text-lg font-semibold text-${reqMsg.color}`}>
+        <p
+          className={`hidden md:block mt-4 text-center text-lg font-semibold text-${reqMsg.color}`}
+        >
           {reqMsg.msg}
-          
         </p>
       </div>
 
